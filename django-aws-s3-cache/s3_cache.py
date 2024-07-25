@@ -83,6 +83,9 @@ class S3CacheBackend(BaseCache):
 
         delete_us = dict(Objects=[])
         for item in pages.search("Contents"):
+            # Handle empty bucket case
+            if not item:
+                continue
             delete_us["Objects"].append(dict(Key=item["Key"]))
 
             # Flush once we hit 1000 keys
